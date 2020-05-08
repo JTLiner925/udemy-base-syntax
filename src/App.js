@@ -1,19 +1,13 @@
 import React, { Component} from 'react';
-import UserInput from './UserInput';
-import UserOutput from './UserOutput.js';
-import Nav from './Nav';
-import HomePage from './HomePage'
-import { Route, Switch } from "react-router-dom";
-import ClickCount from './ClickCount';
 import './App.css';
+import ValidateComponent from './ValidateComponent';
 
 //click count, everytime you click the button it adds one
 //Router with three routes instead of three seperate pages
 //passing a callback prop to child component
 class App extends Component {
   state = {
-    userName: 'Dave',
-    num: 0,
+    text: 'Today is going to be a good day!',
   }
 
   handleAddClick = () => {
@@ -22,40 +16,28 @@ class App extends Component {
     })
   }
 
-  handleAddUser = (event) => {
+  handleAddText = (event) => {
     this.setState({
-      userName: event.target.value,
+      text: event.target.value,
+    })
+    return this.text
+  }
+  handleTextLength = () => {
+    const myString = this.state.text
+    const textLength = myString.length();
+    this.setState({
+      textLength: textLength
     })
   }
   render(){
-  
+  console.log(this.state)
   return (
     <div className="App">
-      <nav>
-        <Nav />
-      </nav>
-      <main>
-        <Switch>
-          <Route exact path='/' component={HomePage}/>
-          <Route 
-            path='/click-count' 
-            render={() =>
-              <ClickCount 
-              num={this.state.num}
-              click={this.handleAddClick}
-              />}
-          />
-          <Route 
-          path='/name-changer'
-          render={() => 
-            <>
-              <UserInput change={this.handleAddUser}/>
-              <UserOutput  userName={this.state.userName} />
-            </>
-          } />
-      
-      </Switch>
-      </main>
+      <ValidateComponent 
+      change = {this.handleAddText}
+        text = {this.state.text}
+        // length = {this.handleTextLength}
+      />
     </div>
   );
 }
