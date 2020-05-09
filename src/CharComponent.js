@@ -1,9 +1,16 @@
 import React from 'react'
 
 export default function CharComponent(props) {
+  const style ={
+    display: 'inline-block',
+    padding: '16px',
+    margin: '16px',
+    border: '1px solid black',
+    textAlign: 'center'
+  }
   return (
-    <div>
-      <p onClick={()=> props.delete(props.letter)}key={props.key}>{props.letter}</p>
+    <div style={style} onClick={props.clicked}>
+      {props.character}
     </div>
   )
 }

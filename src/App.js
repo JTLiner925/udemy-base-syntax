@@ -24,34 +24,41 @@ class App extends Component {
     })
   }
 
-  handleLetterDelete = (letter) => {
-    
-    
-    let text = this.state.text.split('') 
-    console.log(text)
-    let index = text.indexOf(letter)
-    console.log(index)
-    text.splice(index, 1)
-    this.setState({
-      text: text.join(''),
-      index: index,
-      key: this.state.id
-    })
+  deleteCharHandler = ( index ) => {
+    const text = this.state.text.split('');
+    text.splice(index, 1);
+    const updatedText = text.join('');
+    this.setState({text:updatedText});
   }
+  // handleLetterDelete = (letter) => {
+    
+    
+  //   let text = this.state.text.split('') 
+  //   console.log(text)
+  //   let index = text.indexOf(letter)
+  //   console.log(index)
+  //   text.splice(index, 1)
+  //   this.setState({
+  //     text: text.join(''),
+  //     index: index,
+  //     key: this.state.id
+  //   })
+  // }
   render(){
+    let charList = this.state.text.split('').map((char, index) => {
+      return <CharComponent 
+      character={char} 
+      key={index}
+      clicked={() => this.deleteCharHandler(index)}/>
+    })
   return (
     <div className="App">
-      <input onChange={this.handleAddText}/>
+      <input onChange={this.handleAddText} value={this.state.text}/>
       
       <ValidateComponent 
         length = {this.state.text.length}
       />
-      {this.state.text.split('').map(letter =>{
-        return <CharComponent
-          key={this.props.id}
-          letter={letter} 
-          delete = {this.handleLetterDelete}/>
-      })}
+      {charList}
     </div>
   );
 }
