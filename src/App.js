@@ -1,5 +1,6 @@
 import React, { Component} from 'react';
 import './App.css';
+import CharComponent from './CharComponent';
 import ValidateComponent from './ValidateComponent';
 
 //click count, everytime you click the button it adds one
@@ -7,7 +8,8 @@ import ValidateComponent from './ValidateComponent';
 //passing a callback prop to child component
 class App extends Component {
   state = {
-    text: 'Today is going to be a good day!',
+    text: '',
+    id: 0
   }
 
   handleAddClick = () => {
@@ -20,24 +22,36 @@ class App extends Component {
     this.setState({
       text: event.target.value,
     })
-    return this.text
   }
-  handleTextLength = () => {
-    const myString = this.state.text
-    const textLength = myString.length();
+
+  handleLetterDelete = (letter) => {
+    
+    
+    let text = this.state.text.split('') 
+    console.log(text)
+    let index = text.indexOf(letter)
+    console.log(index)
+    text.splice(index, 1)
     this.setState({
-      textLength: textLength
+      text: text.join(''),
+      index: index,
+      key: this.state.id
     })
   }
   render(){
-  console.log(this.state)
   return (
     <div className="App">
+      <input onChange={this.handleAddText}/>
+      
       <ValidateComponent 
-      change = {this.handleAddText}
-        text = {this.state.text}
-        // length = {this.handleTextLength}
+        length = {this.state.text.length}
       />
+      {this.state.text.split('').map(letter =>{
+        return <CharComponent
+          key={this.props.id}
+          letter={letter} 
+          delete = {this.handleLetterDelete}/>
+      })}
     </div>
   );
 }
